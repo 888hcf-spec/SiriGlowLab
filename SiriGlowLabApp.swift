@@ -5,7 +5,7 @@ import SwiftUI
 struct SiriGlowLabApp: App {
     var body: some Scene {
         WindowGroup {
-            RainbowGlowView()
+            ContentView()
         }
     }
 }
