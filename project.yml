@@ -1,0 +1,23 @@
+
+name: SiriGlowLab
+
+options:
+  bundleIdPrefix: com.example
+  deploymentTarget:
+    iOS: "16.0"
+
+targets:
+  SiriGlowLab:
+    type: application
+    platform: iOS
+    sources:
+      - RainbowGlowView.swift
+      - SiriGlowLabApp.swift
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.SiriGlowLab
+        PRODUCT_NAME: SiriGlowLab
+        SWIFT_VERSION: "5.0"
+        TARGETED_DEVICE_FAMILY: "1,2"
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: SiriGlowLab
