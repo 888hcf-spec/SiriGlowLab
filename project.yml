@@ -13,6 +13,7 @@ targets:
     sources:
       - RainbowGlowView.swift
       - SiriGlowLabApp.swift
+      - ContentView.swift
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.example.SiriGlowLab
