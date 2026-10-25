@@ -11,9 +11,9 @@ targets:
     type: application
     platform: iOS
     sources:
-      - RainbowGlowView.swift
-      - SiriGlowLabApp.swift
-      - ContentView.swift
+      - path: RainbowGlowView.swift
+      - path: SiriGlowLabApp.swift
+      - path: ContentView.swift
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.example.SiriGlowLab
