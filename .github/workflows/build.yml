@@ -20,12 +20,12 @@ jobs:
       - name: Generate Xcode project
         run: xcodegen generate
 
-      - name: Build iOS Simulator app
+            - name: Build iPhone app
         run: |
           xcodebuild \
             -project SiriGlowLab.xcodeproj \
             -scheme SiriGlowLab \
-            -sdk iphonesimulator \
+                        -sdk iphoneos \
             -configuration Debug \
             -derivedDataPath build \
             CODE_SIGNING_ALLOWED=NO \
@@ -36,4 +36,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: SiriGlowLab-Simulator
-          path: build/Build/Products/Debug-iphonesimulator/SiriGlowLab.app
+          path: build/Build/Products/Debug-iphoneos/SiriGlowLab.app
