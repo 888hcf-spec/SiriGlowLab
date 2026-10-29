@@ -3,31 +3,41 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var previewEnabled = false
+    @State private var orbRotates = false
 
     private var systemVersion: String {
-        let version = ProcessInfo.processInfo.operatingSystemVersion
-        return "\(version.majorVersion).\(version.minorVersion).\(version.patchVersion)"
+        let v = ProcessInfo.processInfo.operatingSystemVersion
+        return "\(v.majorVersion).\(v.minorVersion).\(v.patchVersion)"
     }
 
     var body: some View {
         ZStack {
-            Color(red: 0.025, green: 0.025, blue: 0.05)
+            Color(red: 0.018, green: 0.022, blue: 0.045)
                 .ignoresSafeArea()
 
             ScrollView(showsIndicators: false) {
-                VStack(alignment: .leading, spacing: 26) {
+                VStack(spacing: 26) {
                     header
-                    heroCard
-                    controlCard
-                    compatibilityCard
+                    hero
+                    previewButton
+                    featureSection
+                    deviceSection
                     footer
                 }
                 .padding(.horizontal, 22)
-                .padding(.top, 24)
-                .padding(.bottom, 36)
+                .padding(.top, 18)
+                .padding(.bottom, 34)
             }
         }
         .preferredColorScheme(.dark)
+        .onAppear {
+            withAnimation(
+                .linear(duration: 12)
+                .repeatForever(autoreverses: false)
+            ) {
+                orbRotates = true
+            }
+        }
         .fullScreenCover(isPresented: $previewEnabled) {
             RainbowPreviewScreen {
                 previewEnabled = false
@@ -36,237 +46,233 @@ struct ContentView: View {
     }
 
     private var header: some View {
-        HStack(spacing: 14) {
+        HStack(spacing: 12) {
             ZStack {
-                RoundedRectangle(cornerRadius: 18)
+                RoundedRectangle(cornerRadius: 17)
                     .fill(Color.white.opacity(0.07))
-                    .frame(width: 58, height: 58)
 
-                Image(systemName: "waveform")
-                    .font(.system(size: 28, weight: .medium))
-                    .foregroundStyle(
-                        LinearGradient(
-                            colors: [.pink, .purple, .blue, .cyan],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
+                RainbowOrb(size: 42, rotating: orbRotates)
+                    .padding(7)
             }
+            .frame(width: 58, height: 58)
 
-            VStack(alignment: .leading, spacing: 5) {
+            VStack(alignment: .leading, spacing: 4) {
                 Text("SiriGlowLab")
-                    .font(.title2.bold())
+                    .font(.system(size: 22, weight: .bold))
                     .foregroundStyle(.white)
 
-                Text("RAINBOW EXPERIENCE")
-                    .font(.system(size: 10, weight: .bold))
+                Text("RAINBOW LIGHT STUDIO")
+                    .font(.system(size: 9, weight: .bold))
                     .tracking(2)
-                    .foregroundStyle(.white.opacity(0.45))
+                    .foregroundStyle(.white.opacity(0.42))
             }
 
             Spacer()
 
-            Circle()
-                .fill(Color.green)
-                .frame(width: 7, height: 7)
-                .shadow(color: .green.opacity(0.7), radius: 7)
-        }
-    }
+            HStack(spacing: 6) {
+                Circle()
+                    .fill(Color.green)
+                    .frame(width: 6, height: 6)
 
-    private var heroCard: some View {
-        ZStack(alignment: .bottomLeading) {
-            RoundedRectangle(cornerRadius: 30)
-                .fill(
-                    LinearGradient(
-                        colors: [
-                            Color(red: 0.24, green: 0.10, blue: 0.42),
-                            Color(red: 0.09, green: 0.10, blue: 0.25),
-                            Color(red: 0.04, green: 0.04, blue: 0.10)
-                        ],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
-
-            Circle()
-                .fill(Color.purple.opacity(0.25))
-                .frame(width: 180, height: 180)
-                .blur(radius: 55)
-                .offset(x: 180, y: -70)
-
-            VStack(alignment: .leading, spacing: 18) {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 23)
-                        .stroke(
-                            AngularGradient(
-                                colors: [
-                                    .pink, .purple, .blue,
-                                    .cyan, .green, .yellow, .pink
-                                ],
-                                center: .center
-                            ),
-                            lineWidth: 3
-                        )
-                        .frame(width: 92, height: 92)
-                        .shadow(color: .purple.opacity(0.6), radius: 15)
-
-                    Image(systemName: "sparkles")
-                        .font(.system(size: 38, weight: .light))
-                        .foregroundStyle(.white)
-                }
-                .padding(.top, 26)
-
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("让光效，流动起来。")
-                        .font(.system(size: 27, weight: .bold))
-                        .foregroundStyle(.white)
-
-                    Text("探索绚丽的彩虹边缘动画，打造专属于你的视觉体验。")
-                        .font(.subheadline)
-                        .foregroundStyle(.white.opacity(0.68))
-                        .lineSpacing(4)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-
-                Button {
-                    previewEnabled = true
-                } label: {
-                    HStack(spacing: 9) {
-                        Image(systemName: "play.fill")
-                        Text("体验全屏光效")
-                            .fontWeight(.semibold)
-                        Spacer()
-                        Image(systemName: "arrow.up.right")
-                    }
-                    .foregroundStyle(.white)
-                    .padding(.horizontal, 18)
-                    .frame(height: 52)
-                    .background(
-                        LinearGradient(
-                            colors: [.purple, .blue.opacity(0.85)],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        ),
-                        in: RoundedRectangle(cornerRadius: 17)
-                    )
-                }
-                .buttonStyle(.plain)
-                .padding(.bottom, 24)
+                Text("READY")
+                    .font(.system(size: 9, weight: .bold))
+                    .tracking(1)
+                    .foregroundStyle(.white.opacity(0.7))
             }
-            .padding(.horizontal, 24)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 8)
+            .background(Color.white.opacity(0.06), in: Capsule())
         }
-        .fixedSize(horizontal: false, vertical: true)
     }
 
-    private var controlCard: some View {
-        VStack(alignment: .leading, spacing: 18) {
-            sectionTitle("光效控制", subtitle: "LIGHT EFFECT")
+    private var hero: some View {
+        VStack(spacing: 18) {
+            ZStack {
+                Circle()
+                    .fill(Color.purple.opacity(0.15))
+                    .frame(width: 230, height: 230)
+                    .blur(radius: 48)
 
-            HStack(spacing: 14) {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 15)
-                        .fill(Color.purple.opacity(0.18))
-                        .frame(width: 50, height: 50)
+                Circle()
+                    .fill(Color.blue.opacity(0.12))
+                    .frame(width: 170, height: 170)
+                    .blur(radius: 35)
+                    .offset(x: 36, y: 25)
 
-                    Image(systemName: "rainbow")
-                        .font(.system(size: 25))
-                        .foregroundStyle(.purple)
-                }
+                RainbowOrb(size: 176, rotating: orbRotates)
+                    .shadow(color: .purple.opacity(0.24), radius: 35)
+            }
+            .frame(height: 220)
 
-                VStack(alignment: .leading, spacing: 5) {
-                    Text("彩虹光效预览")
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundStyle(.white)
+            VStack(spacing: 9) {
+                Text("让色彩，随光流动。")
+                    .font(.system(size: 29, weight: .bold))
+                    .foregroundStyle(.white)
+                    .multilineTextAlignment(.center)
 
-                    Text(previewEnabled ? "预览已开启" : "控制 App 内的视觉效果")
-                        .font(.caption)
-                        .foregroundStyle(.white.opacity(0.5))
-                }
+                Text("探索灵感来自 Siri 的彩虹光效，\n打造属于你的沉浸式视觉体验。")
+                    .font(.system(size: 14))
+                    .foregroundStyle(.white.opacity(0.55))
+                    .multilineTextAlignment(.center)
+                    .lineSpacing(5)
+            }
+        }
+        .padding(.top, 10)
+        .padding(.bottom, 2)
+    }
+
+    private var previewButton: some View {
+        Button {
+            previewEnabled = true
+        } label: {
+            HStack(spacing: 12) {
+                Image(systemName: "sparkles")
+                    .font(.system(size: 17, weight: .semibold))
+
+                Text("开启全屏光效")
+                    .font(.system(size: 16, weight: .semibold))
 
                 Spacer()
 
-                Toggle("彩虹光效", isOn: $previewEnabled)
-                    .labelsHidden()
-                    .tint(.purple)
-                    .fixedSize()
-                    .accessibilityLabel("开启彩虹光效预览")
+                Image(systemName: "arrow.up.right")
+                    .font(.system(size: 14, weight: .bold))
             }
-
-            Text("提示：开启开关会进入全屏预览；关闭预览即可返回主界面。")
-                .font(.caption)
-                .foregroundStyle(.white.opacity(0.45))
-                .lineSpacing(3)
+            .foregroundStyle(.white)
+            .padding(.horizontal, 20)
+            .frame(height: 58)
+            .background {
+                RoundedRectangle(cornerRadius: 19)
+                    .fill(
+                        LinearGradient(
+                            colors: [
+                                Color(red: 0.53, green: 0.28, blue: 0.98),
+                                Color(red: 0.28, green: 0.38, blue: 0.98),
+                                Color(red: 0.12, green: 0.62, blue: 0.91)
+                            ],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+            }
+            .overlay {
+                RoundedRectangle(cornerRadius: 19)
+                    .stroke(Color.white.opacity(0.18), lineWidth: 1)
+            }
         }
-        .padding(20)
-        .background(Color.white.opacity(0.045))
-        .overlay {
-            RoundedRectangle(cornerRadius: 24)
-                .stroke(Color.white.opacity(0.07), lineWidth: 1)
-        }
-        .clipShape(RoundedRectangle(cornerRadius: 24))
+        .buttonStyle(.plain)
     }
 
-    private var compatibilityCard: some View {
-        VStack(alignment: .leading, spacing: 18) {
-            sectionTitle("设备与兼容性", subtitle: "DEVICE STATUS")
+    private var featureSection: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            sectionHeading("体验亮点", subtitle: "MADE FOR YOUR SCREEN")
 
-            statusRow(
-                icon: "iphone",
-                title: "当前系统",
-                value: "iOS \(systemVersion)",
-                color: .cyan
-            )
+            HStack(spacing: 12) {
+                featureCard(
+                    icon: "paintpalette.fill",
+                    title: "彩虹色彩",
+                    subtitle: "多色渐变光环",
+                    tint: .purple
+                )
 
-            Divider().overlay(Color.white.opacity(0.08))
+                featureCard(
+                    icon: "waveform",
+                    title: "流动视觉",
+                    subtitle: "动态旋转效果",
+                    tint: .cyan
+                )
+            }
 
-            statusRow(
-                icon: "sparkles",
-                title: "App 内彩虹预览",
-                value: "已集成",
-                color: .green
-            )
+            HStack(spacing: 12) {
+                featureCard(
+                    icon: "viewfinder",
+                    title: "全屏预览",
+                    subtitle: "沉浸式展示",
+                    tint: .pink
+                )
 
-            Divider().overlay(Color.white.opacity(0.08))
+                featureCard(
+                    icon: "hand.tap.fill",
+                    title: "轻松操作",
+                    subtitle: "一键进入体验",
+                    tint: .orange
+                )
+            }
+        }
+    }
 
-            statusRow(
-                icon: "waveform",
-                title: "系统 Siri 彩虹效果",
-                value: "尚未验证",
-                color: .orange
-            )
+    private var deviceSection: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            sectionHeading("设备与功能", subtitle: "DEVICE STATUS")
 
-            Text("系统 Siri 的外观受 iOS 系统权限与版本限制。本 App 目前不会修改系统 Siri。")
-                .font(.caption)
-                .foregroundStyle(.white.opacity(0.48))
+            VStack(spacing: 0) {
+                statusRow(
+                    icon: "iphone",
+                    title: "当前系统",
+                    value: "iOS \(systemVersion)",
+                    tint: .cyan
+                )
+
+                Divider()
+                    .overlay(Color.white.opacity(0.07))
+                    .padding(.leading, 42)
+
+                statusRow(
+                    icon: "sparkles",
+                    title: "App 内彩虹预览",
+                    value: "可体验",
+                    tint: .green
+                )
+
+                Divider()
+                    .overlay(Color.white.opacity(0.07))
+                    .padding(.leading, 42)
+
+                statusRow(
+                    icon: "waveform",
+                    title: "系统 Siri 光效",
+                    value: "尚未实现",
+                    tint: .orange
+                )
+            }
+            .padding(.horizontal, 16)
+            .background(Color.white.opacity(0.045))
+            .clipShape(RoundedRectangle(cornerRadius: 22))
+            .overlay {
+                RoundedRectangle(cornerRadius: 22)
+                    .stroke(Color.white.opacity(0.07), lineWidth: 1)
+            }
+
+            Text("当前版本提供 App 内视觉预览，不会修改系统 Siri 的界面。")
+                .font(.system(size: 11))
+                .foregroundStyle(.white.opacity(0.4))
                 .lineSpacing(4)
-                .fixedSize(horizontal: false, vertical: true)
         }
-        .padding(20)
-        .background(Color.white.opacity(0.045))
-        .overlay {
-            RoundedRectangle(cornerRadius: 24)
-                .stroke(Color.white.opacity(0.07), lineWidth: 1)
-        }
-        .clipShape(RoundedRectangle(cornerRadius: 24))
     }
 
     private var footer: some View {
-        HStack {
-            Spacer()
-            Image(systemName: "sparkle")
-            Text("MADE FOR YOUR OWN EXPERIENCE")
-                .tracking(1.5)
-            Spacer()
+        VStack(spacing: 8) {
+            RainbowOrb(size: 25, rotating: orbRotates)
+
+            Text("SIRIGLOWLAB")
+                .font(.system(size: 9, weight: .bold))
+                .tracking(2.5)
+                .foregroundStyle(.white.opacity(0.35))
+
+            Text("A little more color in your world.")
+                .font(.system(size: 11))
+                .foregroundStyle(.white.opacity(0.28))
         }
-        .font(.system(size: 9, weight: .medium))
-        .foregroundStyle(.white.opacity(0.28))
-        .padding(.top, 2)
+        .frame(maxWidth: .infinity)
+        .padding(.top, 5)
     }
 
-    private func sectionTitle(_ title: String, subtitle: String) -> some View {
+    private func sectionHeading(
+        _ title: String,
+        subtitle: String
+    ) -> some View {
         VStack(alignment: .leading, spacing: 5) {
             Text(title)
-                .font(.headline)
+                .font(.system(size: 18, weight: .bold))
                 .foregroundStyle(.white)
 
             Text(subtitle)
@@ -276,29 +282,148 @@ struct ContentView: View {
         }
     }
 
+    private func featureCard(
+        icon: String,
+        title: String,
+        subtitle: String,
+        tint: Color
+    ) -> some View {
+        VStack(alignment: .leading, spacing: 13) {
+            Image(systemName: icon)
+                .font(.system(size: 19, weight: .semibold))
+                .foregroundStyle(tint)
+                .frame(width: 40, height: 40)
+                .background(tint.opacity(0.13), in: RoundedRectangle(cornerRadius: 13))
+
+            VStack(alignment: .leading, spacing: 5) {
+                Text(title)
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundStyle(.white)
+
+                Text(subtitle)
+                    .font(.system(size: 11))
+                    .foregroundStyle(.white.opacity(0.45))
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(15)
+        .background(Color.white.opacity(0.045))
+        .clipShape(RoundedRectangle(cornerRadius: 20))
+        .overlay {
+            RoundedRectangle(cornerRadius: 20)
+                .stroke(Color.white.opacity(0.06), lineWidth: 1)
+        }
+    }
+
     private func statusRow(
         icon: String,
         title: String,
         value: String,
-        color: Color
+        tint: Color
     ) -> some View {
         HStack(spacing: 12) {
             Image(systemName: icon)
-                .font(.system(size: 17))
-                .foregroundStyle(color)
-                .frame(width: 25)
+                .font(.system(size: 16, weight: .medium))
+                .foregroundStyle(tint)
+                .frame(width: 26)
 
             Text(title)
-                .font(.subheadline)
-                .foregroundStyle(.white.opacity(0.75))
+                .font(.system(size: 13))
+                .foregroundStyle(.white.opacity(0.76))
 
             Spacer()
 
             Text(value)
                 .font(.system(size: 12, weight: .medium))
-                .foregroundStyle(color)
-                .multilineTextAlignment(.trailing)
+                .foregroundStyle(tint)
         }
+        .padding(.vertical, 16)
+    }
+}
+
+private struct RainbowOrb: View {
+    let size: CGFloat
+    let rotating: Bool
+
+    private let colors: [Color] = [
+        .pink, .purple, .blue, .cyan,
+        .green, .yellow, .orange, .pink
+    ]
+
+    var body: some View {
+        ZStack {
+            Circle()
+                .fill(
+                    RadialGradient(
+                        colors: [
+                            Color.white.opacity(0.16),
+                            Color.purple.opacity(0.12),
+                            Color.clear
+                        ],
+                        center: .center,
+                        startRadius: 2,
+                        endRadius: size * 0.55
+                    )
+                )
+
+            Circle()
+                .stroke(
+                    AngularGradient(
+                        colors: colors,
+                        center: .center
+                    ),
+                    lineWidth: max(3, size * 0.055)
+                )
+                .padding(size * 0.055)
+                .blur(radius: size * 0.035)
+                .opacity(0.9)
+
+            Circle()
+                .stroke(
+                    AngularGradient(
+                        colors: colors,
+                        center: .center
+                    ),
+                    lineWidth: max(1.5, size * 0.018)
+                )
+                .padding(size * 0.09)
+
+            Circle()
+                .fill(
+                    RadialGradient(
+                        colors: [
+                            Color.white.opacity(0.22),
+                            Color.blue.opacity(0.13),
+                            Color.black.opacity(0.65)
+                        ],
+                        center: .topLeading,
+                        startRadius: 1,
+                        endRadius: size * 0.8
+                    )
+                )
+                .padding(size * 0.15)
+
+            Circle()
+                .stroke(Color.white.opacity(0.18), lineWidth: 1)
+                .padding(size * 0.15)
+
+            Circle()
+                .fill(
+                    AngularGradient(
+                        colors: colors.map { $0.opacity(0.35) },
+                        center: .center
+                    )
+                )
+                .frame(width: size * 0.18, height: size * 0.18)
+                .blur(radius: size * 0.08)
+                .offset(x: -size * 0.12, y: -size * 0.13)
+        }
+        .frame(width: size, height: size)
+        .rotationEffect(.degrees(rotating ? 360 : 0))
+        .animation(
+            .linear(duration: 12).repeatForever(autoreverses: false),
+            value: rotating
+        )
     }
 }
 
@@ -310,16 +435,33 @@ private struct RainbowPreviewScreen: View {
             RainbowGlowView()
                 .ignoresSafeArea()
 
-            Button(action: close) {
-                Image(systemName: "xmark")
-                    .font(.system(size: 16, weight: .bold))
-                    .foregroundStyle(.white)
-                    .frame(width: 44, height: 44)
-                    .background(.ultraThinMaterial, in: Circle())
+            VStack {
+                Button(action: close) {
+                    Image(systemName: "xmark")
+                        .font(.system(size: 16, weight: .bold))
+                        .foregroundStyle(.white)
+                        .frame(width: 46, height: 46)
+                        .background(.ultraThinMaterial, in: Circle())
+                        .overlay {
+                            Circle()
+                                .stroke(
+                                    Color.white.opacity(0.18),
+                                    lineWidth: 1
+                                )
+                        }
+                }
+                .accessibilityLabel("关闭预览")
+                .padding(.top, 12)
+                .padding(.trailing, 16)
+
+                Spacer()
+
+                Text("RAINBOW PREVIEW")
+                    .font(.system(size: 10, weight: .bold))
+                    .tracking(2.5)
+                    .foregroundStyle(.white.opacity(0.5))
+                    .padding(.bottom, 28)
             }
-            .padding(.top, 12)
-            .padding(.trailing, 16)
-            .accessibilityLabel("关闭预览")
         }
         .background(Color.black)
         .preferredColorScheme(.dark)
