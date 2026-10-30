@@ -1,4 +1,3 @@
-
 name: SiriGlowLab
 
 options:
@@ -11,14 +10,16 @@ targets:
     type: application
     platform: iOS
     sources:
-      - path: RainbowGlowView.swift
-      - path: SiriGlowLabApp.swift
       - path: ContentView.swift
+      - path: SiriGlowLabApp.swift
+      - path: RainbowGlowView.swift
+      - path: Assets.xcassets
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.example.SiriGlowLab
         PRODUCT_NAME: SiriGlowLab
         SWIFT_VERSION: "5.0"
-        TARGETED_DEVICE_FAMILY: "1,2"
+        TARGETED_DEVICE_FAMILY: "1"
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_CFBundleDisplayName: SiriGlowLab
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
